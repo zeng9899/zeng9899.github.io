@@ -1,8 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>HR98的博客</title><link>https://zeng9899.github.io</link><description>代码实习生</description><copyright>HR98的博客</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/164010914?v=4&amp;size=64</url><title>avatar</title><link>https://zeng9899.github.io</link></image><lastBuildDate>Sun, 26 Apr 2026 07:00:34 +0000</lastBuildDate><managingEditor>HR98的博客</managingEditor><ttl>60</ttl><webMaster>HR98的博客</webMaster><item><title>机器人拆解流程理解</title><link>https://zeng9899.github.io/post/ji-qi-ren-chai-jie-liu-cheng-li-jie.html</link><description># 从工业机器人到具身智能机器人
-# 机器人拆解流程理解：从工业机器人到具身智能机器人
-
----
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>HR98的博客</title><link>https://zeng9899.github.io</link><description>代码实习生</description><copyright>HR98的博客</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/164010914?v=4&amp;size=64</url><title>avatar</title><link>https://zeng9899.github.io</link></image><lastBuildDate>Sun, 26 Apr 2026 07:05:43 +0000</lastBuildDate><managingEditor>HR98的博客</managingEditor><ttl>60</ttl><webMaster>HR98的博客</webMaster><item><title>机器人拆解流程理解</title><link>https://zeng9899.github.io/post/ji-qi-ren-chai-jie-liu-cheng-li-jie.html</link><description>---
 
 ## 一、机器人拆解的核心方法论
 ### 1.1 拆解的本质
