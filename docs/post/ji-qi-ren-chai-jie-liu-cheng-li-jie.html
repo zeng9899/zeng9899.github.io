@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    
+    <link rel="icon" href="https://avatars.githubusercontent.com/u/164010914?v=4&size=64"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
+    </script>
+<meta name="description" content="---
+
+## 一、机器人拆解的核心方法论
+### 1.1 拆解的本质
+机器人产品与互联网产品的本质区别在于：**互联网产品运行在数字世界，而机器人运行在充满不确定性的物理世界**。">
+<meta property="og:title" content="机器人拆解流程理解">
+<meta property="og:description" content="---
+
+## 一、机器人拆解的核心方法论
+### 1.1 拆解的本质
+机器人产品与互联网产品的本质区别在于：**互联网产品运行在数字世界，而机器人运行在充满不确定性的物理世界**。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://zeng9899.github.io/post/ji-qi-ren-chai-jie-liu-cheng-li-jie.html">
+<meta property="og:image" content="https://avatars.githubusercontent.com/u/164010914?v=4&size=64">
+<title>机器人拆解流程理解</title>
+
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+.copy-feedback {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    color: var(--color-fg-on-emphasis);
+    background-color: var(--color-fg-muted);
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">机器人拆解流程理解</h1>
+<div class="title-right">
+    <a href="https://zeng9899.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/zeng9899/zeng9899.github.io/issues/2" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><hr>
+<h2>一、机器人拆解的核心方法论</h2>
+<h3>1.1 拆解的本质</h3>
+<p>机器人产品与互联网产品的本质区别在于：<strong>互联网产品运行在数字世界，而机器人运行在充满不确定性的物理世界</strong>。拆解机器人不是拆解单个零件，而是拆解**"感知-决策-控制-执行-数据闭环"的完整系统链路**，理解每一个技术选择背后的产品逻辑和商业权衡。</p>
+<h3>1.2 通用六层系统架构</h3>
+<p>任何机器人，从最简单的AGV到最复杂的人形机器人，本质上都是一个在物理世界中运行的任务系统。我们可以将其统一拆解为自上而下的六层架构：</p>
+<pre class="notranslate"><code class="notranslate">┌─────────────────────────────────┐
+│ 场景层：定义机器人要解决什么问题 │
+├─────────────────────────────────┤
+│ 感知层：机器人的眼睛、耳朵、皮肤 │
+├─────────────────────────────────┤
+│ 决策层：机器人的大脑与小脑       │
+├─────────────────────────────────┤
+│ 控制层：机器人的神经传导系统     │
+├─────────────────────────────────┤
+│ 执行层：机器人的肌肉与手脚       │
+├─────────────────────────────────┤
+│ 数据闭环层：机器人的学习与进化   │
+└─────────────────────────────────┘
+</code></pre>
+<h3>1.3 拆解的核心原则</h3>
+<ol>
+<li><strong>场景优先</strong>：所有技术选择都服务于场景需求，没有"万能"的机器人，只有"最适合某一场景"的机器人</li>
+<li><strong>系统思维</strong>：任何单一模块的性能都不能决定产品的成败，最终比拼的是整个系统的协同能力</li>
+<li><strong>成本导向</strong>：一个再先进的技术，如果不能把成本降到用户可接受的程度，就没有商业价值</li>
+<li><strong>安全兜底</strong>：物理世界的故障可能导致人身伤害或财产损失，安全永远是第一位的</li>
+</ol>
+<hr>
+<h2>二、第一代：工业/仓储物流机器人（结构化场景）</h2>
+<h3>2.1 场景核心矛盾</h3>
+<p>极致效率 vs 绝对可靠</p>
+<blockquote>
+<p>工业机器人不需要长得好看，核心是"皮实、跑得快、干活猛"，能够在高度结构化的环境中7×24小时不间断工作。</p>
+</blockquote>
+<h3>2.2 标杆产品拆解</h3>
+<h4>海康潜伏机器人Q3-600C vs 极智嘉P800R</h4>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th align="left">对比维度</th>
+<th align="left">海康Q3-600C</th>
+<th align="left">极智嘉P800R</th>
+<th align="left">差异说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">额定负载</td>
+<td align="left">600kg</td>
+<td align="left">1000kg</td>
+<td align="left">P800R适用于更高或更重的货架</td>
+</tr>
+<tr>
+<td align="left">最高速度</td>
+<td align="left">约1.5m/s</td>
+<td align="left">空载2.3m/s，满载2.0m/s</td>
+<td align="left">P800R物理移动速度上限更高</td>
+</tr>
+<tr>
+<td align="left">导航方案</td>
+<td align="left">惯性+二维码视觉导航</td>
+<td align="left">惯性+二维码视觉导航</td>
+<td align="left">底层导航逻辑与停车精度(±10mm)基本一致</td>
+</tr>
+<tr>
+<td align="left">地面要求</td>
+<td align="left">台阶≤5mm，沟宽≤8mm</td>
+<td align="left">台阶≤2mm，沟宽≤5mm</td>
+<td align="left">海康对地面物理缺陷的容忍度相对更高</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<h3>2.3 核心技术链路拆解</h3>
+<h4>导航定位系统</h4>
+<ul>
+<li><strong>核心方案</strong>：惯性导航+二维码视觉导航为主的融合方案</li>
+<li><strong>工作原理</strong>：
+<ol>
+<li>下视地码相机扫描地面二维码，提供"绝对坐标"，是系统精度的"锚点"</li>
+<li>陀螺仪/IMU检测机器人的角速度和姿态，在相机没扫到码的间隙维持航向</li>
+<li>轮式编码器通过计算驱动轮转速得出位移距离</li>
+<li>主控中枢采用EKF(扩展卡尔曼滤波)算法，将绝对定位与相对定位进行互补纠偏</li>
+</ol>
+</li>
+<li><strong>PM洞察</strong>：通过改造地面(贴码)极大降低了算法对复杂环境识别的依赖，是工业场景下性价比最高的导航方案</li>
+</ul>
+<h4>安全防护系统</h4>
+<ul>
+<li><strong>三级防御架构</strong>：
+<ol>
+<li><strong>第一级：激光传感器(预测避障)</strong>：探测半径4m，视野180°，通过三个分区(一级/二级减速区、停止区)动态调速</li>
+<li><strong>第二级：气动碰撞条(触觉防御)</strong>：补偿激光传感器无法覆盖的50mm探测盲区及低矮物体</li>
+<li><strong>第三级：急停按钮(硬件断路)</strong>：最高优先级，直接切断动力系统</li>
+</ol>
+</li>
+<li><strong>PM洞察</strong>：激光雷达本质是"平面切片"，无法感应低于或高于探测平面的物体，必须依赖物理手段兜底</li>
+</ul>
+<h4>系统对接</h4>
+<ul>
+<li><strong>核心流程</strong>：WMS(仓库管理系统)下任务 → RCS(机器人调度系统)派单 → 机器人执行 → 结果回传WMS</li>
+<li><strong>PM洞察</strong>：不懂WMS和RCS对接，就不算懂工业机器人。只有实现全流程数据闭环，才能真正提升仓储效率</li>
+</ul>
+<hr>
+<h2>三、第二代：商用服务/送餐机器人（半结构化场景）</h2>
+<h3>3.1 场景核心矛盾</h3>
+<p>动态环境适应 vs 人机安全</p>
+<blockquote>
+<p>商用机器人必须解决"人走来走去、小孩子乱跑"的不可控环境，同时要足够简单易用，让流动性大的服务员能够快速上手。</p>
+</blockquote>
+<h3>3.2 标杆产品拆解</h3>
+<h4>普渡贝拉Pro vs 擎朗T10</h4>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th align="left">对比维度</th>
+<th align="left">普渡贝拉Pro</th>
+<th align="left">擎朗T10</th>
+<th align="left">差异说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">导航方案</td>
+<td align="left">VSLAM+激光SLAM融合</td>
+<td align="left">VSLAM+激光SLAM融合</td>
+<td align="left">均支持免贴码部署</td>
+</tr>
+<tr>
+<td align="left">感知覆盖</td>
+<td align="left">前向三路防护</td>
+<td align="left">300°环绕防护</td>
+<td align="left">T10为了实现59cm极致通行宽度，增加了侧后方视觉</td>
+</tr>
+<tr>
+<td align="left">交互形态</td>
+<td align="left">仿生猫脸+静态头部</td>
+<td align="left">拟人助手+可旋转头部</td>
+<td align="left">反映了不同的产品哲学：宠物化 vs 工具化</td>
+</tr>
+<tr>
+<td align="left">通行宽度</td>
+<td align="left">65cm</td>
+<td align="left">59cm</td>
+<td align="left">T10在狭窄通道的通过性更强</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<h3>3.3 核心技术链路拆解</h3>
+<h4>多源融合导航</h4>
+<ul>
+<li><strong>分工合作</strong>：
+<ol>
+<li><strong>VSLAM(向上看)</strong>：提取天花板的灯带、空调出风口等视觉特征，建立全局绝对坐标系，不怕玻璃和长走廊</li>
+<li><strong>激光SLAM(向前看)</strong>：生成用于避障的2D栅格地图，不怕黑</li>
+</ol>
+</li>
+<li><strong>融合逻辑</strong>：中央计算平台实时评估各个传感器的置信度权重，动态切换依赖的数据源
+<ul>
+<li>遭遇白墙：VSLAM权重降为0，依赖激光SLAM和IMU</li>
+<li>遭遇人群围观：激光轮廓被打乱，依赖顶视VSLAM</li>
+</ul>
+</li>
+</ul>
+<h4>三维立体避障</h4>
+<ul>
+<li><strong>核心痛点</strong>：传统2D激光雷达像一张极薄的"光盘"在半空中旋转，无法识别低于扫描平面的儿童和高于扫描平面的桌角</li>
+<li><strong>解决方案</strong>：3D体素栅格检测
+<ol>
+<li>多个RGBD深度相机呈特定角度排布，在机器人正前方投射出一片立体的"红外点云阵列"</li>
+<li>系统将前方空间划分成无数个微小的3D立方体(体素栅格)</li>
+<li>一旦有物体进入这个3D视野，系统会立刻下发紧急刹车或绕行指令</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h2>四、第三代：医疗辅助机器人（零容错场景）</h2>
+<h3>4.1 场景核心矛盾</h3>
+<p>零容错率 vs 特种精度</p>
+<blockquote>
+<p>医疗场景容错率为零，要么要求绝对无菌，要么要求绝对精准，同时必须满足严格的医疗合规要求。</p>
+</blockquote>
+<h3>4.2 标杆产品拆解</h3>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th align="left">产品类型</th>
+<th align="left">核心定义</th>
+<th align="left">标杆产品</th>
+<th align="left">PM核心关注点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">手术类</td>
+<td align="left">医生的"手"(精细化)</td>
+<td align="left">达芬奇Xi</td>
+<td align="left">缝合精度、延迟感、力反馈</td>
+</tr>
+<tr>
+<td align="left">环境类</td>
+<td align="left">医院的"盾"(安全性)</td>
+<td align="left">钛米消毒机器人</td>
+<td align="left">消杀覆盖率、不留死角、避障</td>
+</tr>
+<tr>
+<td align="left">物流类</td>
+<td align="left">医院的"血脉"(效率化)</td>
+<td align="left">钛米配送机器人</td>
+<td align="left">权限安全、链路可追溯、梯控能力</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<h3>4.3 核心技术链路拆解</h3>
+<h4>手术机器人：力反馈技术</h4>
+<ul>
+<li><strong>核心痛点</strong>：传统手术机器人医生只能通过3D眼睛看到组织，没有触觉反馈，容易把脆弱的血管扯断</li>
+<li><strong>解决方案</strong>：在机械臂末端集成高精度测力传感器，将器械感受到的阻力实时传导给医生的手指</li>
+<li><strong>PM洞察</strong>：力反馈不仅提升了手术精度，还大幅缩短了医生的学习曲线</li>
+</ul>
+<h4>配送机器人：IoT梯控集成</h4>
+<ul>
+<li><strong>核心痛点</strong>：机器人需要跨楼层配送，但不能用手指按电梯</li>
+<li><strong>解决方案</strong>：给电梯控制柜里装一个无线PLC模块，机器人通过5G/Wi-Fi发送加密指令控制电梯</li>
+<li><strong>关键指标</strong>：对接自动门和充电桩时的对准精度达到±8mm，比送餐机器人要求高了近一个数量级</li>
+</ul>
+<h4>特殊环境适配</h4>
+<ul>
+<li><strong>核医学场景</strong>：搭载盖格计数器实时测量辐射残余值，外壳采用耐腐蚀的高分子材料</li>
+<li><strong>传染病房场景</strong>：支持全流程无人化，底盘极度平稳，不能把消毒液洒出来</li>
+</ul>
+<hr>
+<h2>五、第四代：家用服务机器人（非结构化场景）</h2>
+<h3>5.1 场景核心矛盾</h3>
+<p>极致成本控制 vs 非标准环境适应</p>
+<blockquote>
+<p>家用机器人要求极端的成本控制(老百姓买得起)，同时要能适应乱七八糟的家庭环境(电线、拖鞋、宠物粪便)。</p>
+</blockquote>
+<h3>5.2 标杆产品拆解：石头G20S Ultra</h3>
+<h4>核心产品决策：砍掉"瞭望塔"的系统重构</h4>
+<ul>
+<li><strong>商业背景</strong>：国内高净值家庭中，41%的沙发/床底离地高度≤8cm，是用户投诉"清扫覆盖率不足"的TOP1原因</li>
+<li><strong>激进决策</strong>：取消行业标配的头顶LDS激光雷达，将机身极限压缩至7.98cm</li>
+<li><strong>重构代价</strong>：
+<ol>
+<li>全局SLAM能力下降，必须通过频繁原地转身完成全局标定</li>
+<li>算法算力成本陡增，前向多模态融合的算法复杂度提升了3倍以上</li>
+<li>极端场景避障失效风险上升</li>
+</ol>
+</li>
+</ul>
+<h4>核心技术链路拆解</h4>
+<h5>多模态感知系统</h5>
+<ul>
+<li><strong>方案</strong>：双光源3D-ToF + RGB摄像头</li>
+<li><strong>分工</strong>：
+<ol>
+<li>RGB负责语义(知道"是什么")：框出拖鞋、数据线、宠物，提供目标分类</li>
+<li>3D-ToF负责深度(知道"在哪儿")：构建三维轮廓，不受环境光干扰</li>
+</ol>
+</li>
+<li><strong>物理红线原则</strong>：无论视觉算法输出什么结果，只要ToF连续2帧探测到前方5cm存在实体，系统必须立刻强制触发避障</li>
+</ul>
+<h5>执行层创新：AdaptiLift底盘升降</h5>
+<ul>
+<li><strong>本质</strong>：将机械底盘与清扫模组进行物理解耦，通过有限状态机(FSM)实现精密控制</li>
+<li><strong>越障状态机流转</strong>：
+<ol>
+<li>巡航与探测 → 识别到2-4cm台阶</li>
+<li>姿态准备 → 主刷、拖布独立抬升</li>
+<li>万向轮攀爬 → 重心后移，驱动轮输出高扭矩</li>
+<li>驱动轮越野 → 动态调节左右轮速差</li>
+<li>状态恢复 → 底盘下降，恢复巡航</li>
+</ol>
+</li>
+</ul>
+<h5>底层物理防呆设计</h5>
+<ul>
+<li><strong>核心痛点</strong>：感知层无法做到100%不漏报宠物尾巴、粗线缆等高危物体</li>
+<li><strong>解决方案</strong>：基于电机电流过载的硬件级保护
+<ol>
+<li>设定持续过载阈值：正常清扫电流的300%</li>
+<li>引入滑动窗口滤波算法，滤除物理颠簸产生的电流毛刺</li>
+<li>触发三级分级自救策略：主刷反转 → 机身后退 → 彻底断电报警</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h2>六、第五代：通用人形/具身智能机器人（通用场景）</h2>
+<h3>6.1 场景核心矛盾</h3>
+<p>通用能力 vs 量产可行性</p>
+<blockquote>
+<p>人形机器人的终极目标是替代人类完成各种通用任务，但目前最大的挑战是如何在保证基本能力的前提下，把成本降到可规模化量产的水平。</p>
+</blockquote>
+<h3>6.2 代际跃迁：从PR2到现代具身机器人</h3>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th align="left">维度</th>
+<th align="left">传统科研机器人(PR2, 2010)</th>
+<th align="left">新一代具身智能机器人(2025)</th>
+<th align="left">跃迁的核心原因</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">核心控制方式</td>
+<td align="left">传统PID控制，手动写代码调参数</td>
+<td align="left">端到端强化学习+模仿学习</td>
+<td align="left">算力爆炸+仿真技术成熟</td>
+</tr>
+<tr>
+<td align="left">开发效率</td>
+<td align="left">学会一个新动作需要博士团队花几个月</td>
+<td align="left">学会一个新动作只需要收集10分钟人类演示数据</td>
+<td align="left">从"编程教机器人做事"变成"演示教机器人做事"</td>
+</tr>
+<tr>
+<td align="left">通用能力</td>
+<td align="left">只能做预先编程好的动作，换个场景就失效</td>
+<td align="left">能泛化到从未见过的物体和场景</td>
+<td align="left">大模型带来的语义理解和泛化能力</td>
+</tr>
+<tr>
+<td align="left">成本</td>
+<td align="left">40万美元/台</td>
+<td align="left">9.9万人民币/台</td>
+<td align="left">自研电机+规模化生产+用算法替代复杂硬件</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<h3>6.3 核心技术链路拆解</h3>
+<h4>硬件底座：高扭矩密度关节模组</h4>
+<ul>
+<li><strong>传统方案</strong>：高精度工业减速机+舵机，造价昂贵，抗冲击能力差</li>
+<li><strong>现代方案</strong>：自研准直驱电机，虽然精度稍低，但力气大、爆发力强、超级便宜</li>
+<li><strong>PM洞察</strong>：用AI算法去"兜底"硬件的粗糙，是唯一一条能把人形机器人BOM成本打进10万人民币以内的路径</li>
+</ul>
+<h4>控制算法：从物理建模到数据驱动</h4>
+<ul>
+<li><strong>传统逻辑(Model-based)</strong>：工程师精确测量机器人的每一个连杆长度、重量分布，用牛顿力学计算怎么运动</li>
+<li><strong>现代逻辑(Data-driven)</strong>：把机器人扔进仿真环境里，摔倒扣分，走稳加分，摔了一亿次之后，神经网络自动"悟"出了怎么走</li>
+<li><strong>核心优势</strong>：不需要写复杂的物理公式，能够适应各种复杂的非结构化环境</li>
+</ul>
+<h4>两条主流技术路线对比</h4>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th align="left">比较维度</th>
+<th align="left">特斯拉Optimus</th>
+<th align="left">宇树G1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">战略锚点</td>
+<td align="left">闭环AI生态与制造霸权</td>
+<td align="left">极致性价比与开源供应链</td>
+</tr>
+<tr>
+<td align="left">感知方案</td>
+<td align="left">纯视觉(Vision-only)</td>
+<td align="left">视觉+3D激光雷达融合</td>
+</tr>
+<tr>
+<td align="left">硬件侧重</td>
+<td align="left">仿生、高负载(直线电机+5指手)</td>
+<td align="left">敏捷、高动态爆发(旋转电机+3指手)</td>
+</tr>
+<tr>
+<td align="left">商业化路径</td>
+<td align="left">B2B内部消化优先：先去特斯拉超级工厂替代流水线工人</td>
+<td align="left">B2D/B2B(开发者优先)：先以低价铺给全球开发者生态</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<hr>
+<h2>七、机器人产品的本质与未来趋势</h2>
+<h3>7.1 不同代际机器人的核心矛盾总结</h3>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th align="left">代际</th>
+<th align="left">场景</th>
+<th align="left">核心矛盾</th>
+<th align="left">产品哲学</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">第一代</td>
+<td align="left">工业/仓储</td>
+<td align="left">效率 vs 可靠</td>
+<td align="left">用环境改造降低算法难度</td>
+</tr>
+<tr>
+<td align="left">第二代</td>
+<td align="left">商用服务</td>
+<td align="left">动态适应 vs 安全</td>
+<td align="left">用多传感器融合解决环境不确定性</td>
+</tr>
+<tr>
+<td align="left">第三代</td>
+<td align="left">医疗辅助</td>
+<td align="left">零容错 vs 精度</td>
+<td align="left">用冗余设计和合规体系保证安全</td>
+</tr>
+<tr>
+<td align="left">第四代</td>
+<td align="left">家用服务</td>
+<td align="left">成本 vs 适应</td>
+<td align="left">用算法复杂度换取硬件成本降低</td>
+</tr>
+<tr>
+<td align="left">第五代</td>
+<td align="left">通用人形</td>
+<td align="left">通用 vs 量产</td>
+<td align="left">用数据驱动替代物理建模</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<h3>7.2 当前落地最大瓶颈</h3>
+<p><strong>数据瓶颈</strong>：可用于机器人操作类训练的真实交互数据极度短缺。大模型可以用互联网上现成的文本和图像，但机器人需要"叠衣服"、"洗碗"、"在陌生环境里走路"这种真实交互数据，这些数据网上没有，只能自己采集。</p>
+<h3>7.3 未来发展趋势</h3>
+<ol>
+<li><strong>端到端为主，模块化为辅</strong>：享受端到端的流畅迭代速度，同时在关键安全环节保留人工设计的兜底</li>
+<li><strong>仿真技术的突破</strong>：Sim2Real技术让在虚拟世界训练的技能能够直接迁移到真机，大幅降低研发成本</li>
+<li><strong>数据闭环的飞轮效应</strong>：谁能率先跑通"量产-数据-迭代"的飞轮，谁就能在具身智能时代占据领先地位</li>
+</ol>
+<hr>
+<h2>八、机器人产品经理的核心能力</h2>
+<ol>
+<li><strong>系统思维</strong>：能够从整体上把握机器人的全链路系统，识别各个模块之间的依赖关系和瓶颈</li>
+<li><strong>软硬协同能力</strong>：能够在技术可行性、成本和用户体验之间找到最佳平衡点</li>
+<li><strong>物理边界感</strong>：对物理世界的不确定性保持敬畏，能够定义清晰的产品边界和安全兜底策略</li>
+<li><strong>商业算账能力</strong>：能够量化每一个技术决策的收益和代价，做出符合商业逻辑的产品选择</li>
+</ol></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://zeng9899.github.io">HR98的博客</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if(""!=""){
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行 "+diffDay+" 天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'copy': 'M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z', 'check': 'M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z'};
+var utterancesLoad=0;
+
+let themeSettings={
+    "dark": ["dark","moon","#00f0ff","dark-blue"],
+    "light": ["light","sun","#ff5000","github-light"],
+    "auto": ["auto","sync","","preferred-color-scheme"]
+};
+function changeTheme(mode, icon, color, utheme){
+    document.documentElement.setAttribute("data-color-mode",mode);
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color=color;
+    if(utterancesLoad==1){utterancesTheme(utheme);}
+}
+function modeSwitch(){
+    let currentMode=document.documentElement.getAttribute('data-color-mode');
+    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", newMode);
+    if(themeSettings[newMode]){
+        changeTheme(...themeSettings[newMode]);
+    }
+}
+function utterancesTheme(theme){
+    const message={type:'set-theme',theme: theme};
+    const iframe=document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message,'https://utteranc.es');
+}
+if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.disabled=true;
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","zeng9899/zeng9899.github.io");
+    script.setAttribute("issue-term","title");
+    
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const createClipboardHTML = (codeContent, additionalClasses = '') => `
+        <pre class="notranslate"><code class="notranslate">${codeContent}</code></pre>
+        <div class="clipboard-container position-absolute right-0 top-0 ${additionalClasses}">
+            <clipboard-copy class="ClipboardButton btn m-2 p-0" role="button" style="display: inherit;">
+                <svg height="16" width="16" class="octicon octicon-copy m-2"><path d="${IconList["copy"]}"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-check color-fg-success m-2 d-none"><path d="${IconList["check"]}"></path></svg>
+            </clipboard-copy>
+            <div class="copy-feedback">Copied!</div>
+        </div>
+    `;
+
+    const handleCodeElements = (selector = '') => {
+        document.querySelectorAll(selector).forEach(codeElement => {
+            const codeContent = codeElement.innerHTML;
+            const newStructure = document.createElement('div');
+            newStructure.className = 'snippet-clipboard-content position-relative overflow-auto';
+            newStructure.innerHTML = createClipboardHTML(codeContent);
+
+            const parentElement = codeElement.parentElement;
+            if (selector.includes('highlight')) {
+                parentElement.insertBefore(newStructure, codeElement.nextSibling);
+                parentElement.removeChild(codeElement);
+            } else {
+                parentElement.parentElement.replaceChild(newStructure, parentElement);
+            }
+        });
+    };
+
+    handleCodeElements('pre.notranslate > code.notranslate');
+    handleCodeElements('div.highlight > pre.notranslate');
+
+    let currentFeedback = null;
+    document.querySelectorAll('clipboard-copy').forEach(copyButton => {
+        copyButton.addEventListener('click', () => {
+            const codeContent = copyButton.closest('.snippet-clipboard-content').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const copyIcon = copyButton.querySelector('.octicon-copy');
+            const checkIcon = copyButton.querySelector('.octicon-check');
+            const copyFeedback = copyButton.nextElementSibling;
+
+            if (currentFeedback && currentFeedback !== copyFeedback) {currentFeedback.style.display = 'none';}
+            currentFeedback = copyFeedback;
+
+            copyIcon.classList.add('d-none');
+            checkIcon.classList.remove('d-none');
+            copyFeedback.style.display = 'block';
+            copyButton.style.borderColor = 'var(--color-success-fg)';
+
+            setTimeout(() => {
+                copyIcon.classList.remove('d-none');
+                checkIcon.classList.add('d-none');
+                copyFeedback.style.display = 'none';
+                copyButton.style.borderColor = '';
+            }, 2000);
+        });
+    });
+});
+
+</script>
+
+
+</html>

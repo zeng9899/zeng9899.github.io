@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    
+    <link rel="icon" href="https://avatars.githubusercontent.com/u/164010914?v=4&size=64"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
+    </script>
+<meta name="description" content="# 家庭陪护机器人避障与找物功能 PRD
+
+## 1. 文档信息
+
+| 项目 | 内容 |
+| :--- | :--- |
+| 文档名称 | 家庭陪护机器人避障与找物功能 PRD |
+| 版本 | V1.0 |
+| 产品阶段 | 第一版验证型功能 |
+| 适用对象 | 产品、算法、导航、客户端、测试、运维 |
+| 文档目标 | 明确家庭陪护机器人在室内执行找物任务时的避障、搜索、反馈与异常处理要求 |
+
+---
+
+## 2. 项目背景
+
+在家庭陪护场景中，老人或行动不便用户经常会遇到“常用物品一时找不到”的问题，例如药盒、水杯、遥控器、纸巾盒。">
+<meta property="og:title" content="家庭陪护机器人避障与找物功能 PRD">
+<meta property="og:description" content="# 家庭陪护机器人避障与找物功能 PRD
+
+## 1. 文档信息
+
+| 项目 | 内容 |
+| :--- | :--- |
+| 文档名称 | 家庭陪护机器人避障与找物功能 PRD |
+| 版本 | V1.0 |
+| 产品阶段 | 第一版验证型功能 |
+| 适用对象 | 产品、算法、导航、客户端、测试、运维 |
+| 文档目标 | 明确家庭陪护机器人在室内执行找物任务时的避障、搜索、反馈与异常处理要求 |
+
+---
+
+## 2. 项目背景
+
+在家庭陪护场景中，老人或行动不便用户经常会遇到“常用物品一时找不到”的问题，例如药盒、水杯、遥控器、纸巾盒。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://zeng9899.github.io/post/jia-ting-pei-hu-ji-qi-ren-bi-zhang-yu-zhao-wu-gong-neng-%20PRD.html">
+<meta property="og:image" content="https://avatars.githubusercontent.com/u/164010914?v=4&size=64">
+<title>家庭陪护机器人避障与找物功能 PRD</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+.copy-feedback {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    color: var(--color-fg-on-emphasis);
+    background-color: var(--color-fg-muted);
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">家庭陪护机器人避障与找物功能 PRD</h1>
+<div class="title-right">
+    <a href="https://zeng9899.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/zeng9899/zeng9899.github.io/issues/1" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><h1>家庭陪护机器人避障与找物功能 PRD</h1>
+<h2>1. 文档信息</h2>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th align="left">项目</th>
+<th align="left">内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">文档名称</td>
+<td align="left">家庭陪护机器人避障与找物功能 PRD</td>
+</tr>
+<tr>
+<td align="left">版本</td>
+<td align="left">V1.0</td>
+</tr>
+<tr>
+<td align="left">产品阶段</td>
+<td align="left">第一版验证型功能</td>
+</tr>
+<tr>
+<td align="left">适用对象</td>
+<td align="left">产品、算法、导航、客户端、测试、运维</td>
+</tr>
+<tr>
+<td align="left">文档目标</td>
+<td align="left">明确家庭陪护机器人在室内执行找物任务时的避障、搜索、反馈与异常处理要求</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<hr>
+<h2>2. 项目背景</h2>
+<p>在家庭陪护场景中，老人或行动不便用户经常会遇到“常用物品一时找不到”的问题，例如药盒、水杯、遥控器、纸巾盒。这类任务频次高、任务本身不复杂，但对用户的打断感很强。</p>
+<p>现阶段家庭陪护机器人的价值，不应一上来就定义成“自主抓取并递送所有物品”，而应先聚焦在一类高频、低风险、可验证的任务上，形成稳定可复用的导航、避障和目标物搜索能力。</p>
+<p>本 PRD 针对的就是这一类第一版核心功能：</p>
+<p><strong>用户通过语音发出找物请求，机器人在家庭预设区域内安全移动，避开静态和动态障碍物，在目标区域搜索指定物品，并以语音和屏幕形式反馈结果。</strong></p>
+<hr>
+<h2>3. 产品目标</h2>
+<h3>3.1 业务目标</h3>
+<ol>
+<li>降低老人查找高频常用物品的时间成本</li>
+<li>提高陪护机器人在家庭场景中的基础实用性</li>
+<li>为后续抓取、递送、远程协助等高级能力建立底层任务闭环</li>
+</ol>
+<h3>3.2 用户目标</h3>
+<ol>
+<li>用一句自然语言即可发起找物请求</li>
+<li>机器人在移动过程中不撞人、不冒进、状态可理解</li>
+<li>找不到物体时，机器人能明确说明原因，而不是沉默或卡住</li>
+</ol>
+<h3>3.3 产品目标</h3>
+<ol>
+<li>支持语音触发找物任务</li>
+<li>支持家庭预设区域内自主导航与避障</li>
+<li>支持四类高频目标物的搜索与反馈</li>
+<li>支持失败降级与人工协助提示</li>
+</ol>
+<hr>
+<h2>4. 目标用户与使用场景</h2>
+<h3>4.1 目标用户</h3>
+<ol>
+<li>独居老人</li>
+<li>行动受限但有基础语言表达能力的老人</li>
+<li>家庭照护者</li>
+</ol>
+<h3>4.2 使用场景</h3>
+<ol>
+<li>老人在客厅找不到遥控器，希望机器人帮助定位</li>
+<li>老人在卧室内需要寻找药盒，希望机器人前往并协助确认位置</li>
+<li>家属不在身边时，机器人承担基础寻物和状态反馈功能</li>
+</ol>
+<h3>4.3 典型用户语句</h3>
+<ol>
+<li>帮我找一下药盒</li>
+<li>去客厅看看遥控器在哪</li>
+<li>帮我找纸巾盒</li>
+<li>帮我看看水杯是不是在餐桌上</li>
+</ol>
+<hr>
+<h2>5. 版本范围</h2>
+<h3>5.1 本版本包含</h3>
+<ol>
+<li>语音指令接收与任务意图解析</li>
+<li>执行前状态检查，包括电量、定位、地图状态</li>
+<li>家庭预设区域内的自主导航</li>
+<li>行进中的静态与动态避障</li>
+<li>到达目标区域后的目标物搜索</li>
+<li>语音播报和屏幕反馈</li>
+<li>任务失败后的降级处理与日志记录</li>
+</ol>
+<h3>5.2 本版本不包含</h3>
+<ol>
+<li>机械臂抓取与递送</li>
+<li>开放词表的任意目标物识别</li>
+<li>跨楼层导航</li>
+<li>室外场景执行</li>
+<li>极暗环境下的高精度视觉定位</li>
+<li>多轮复杂自然语言对话规划</li>
+</ol>
+<h3>5.3 版本边界原则</h3>
+<p>第一版优先保证“任务可发起、路径可执行、过程安全、结果可反馈”，不追求全能化。</p>
+<hr>
+<h2>6. 需求拆解框架</h2>
+<h3>6.1 Task</h3>
+<ol>
+<li>接收找物任务</li>
+<li>判断是否具备执行条件</li>
+<li>前往目标区域</li>
+<li>在移动过程中完成安全避障</li>
+<li>在目标区域完成目标物搜索</li>
+<li>将搜索结果反馈给用户</li>
+<li>失败时进入降级流程</li>
+</ol>
+<h3>6.2 Environment</h3>
+<ol>
+<li>家庭走道较窄，存在家具腿、拖鞋、电线等静态障碍物</li>
+<li>人、宠物、轮椅、助行器会随机移动</li>
+<li>地面可能包含地毯、门槛和反光区域</li>
+<li>白天夜晚光照变化明显</li>
+<li>Wi-Fi 覆盖并不均匀</li>
+</ol>
+<h3>6.3 Capability</h3>
+<ol>
+<li>语音识别与基础意图解析</li>
+<li>室内定位与路径规划</li>
+<li>静态障碍物检测</li>
+<li>动态障碍物检测与减速停让</li>
+<li>目标物识别与结果确认</li>
+<li>可解释的语音与屏幕反馈</li>
+<li>数据日志记录与异常上报</li>
+</ol>
+<hr>
+<h2>7. 用户故事</h2>
+<h3>用户故事 1</h3>
+<p>作为一名行动不便的老人，我希望只通过语音就能让机器人帮我查找常用物品，这样我不需要自己反复起身寻找。</p>
+<h3>用户故事 2</h3>
+<p>作为一名家庭照护者，我希望机器人在家庭狭窄空间里移动时足够保守和安全，这样我才敢长期让它在老人身边运行。</p>
+<h3>用户故事 3</h3>
+<p>作为一名用户，我希望机器人在找不到目标物时，能明确告知是未识别到、被遮挡还是当前无法执行，而不是一直无响应。</p>
+<hr>
+<h2>8. 功能流程概览</h2>
+<h3>8.1 主流程</h3>
+<ol>
+<li>用户发起语音找物请求</li>
+<li>系统解析目标物和目标区域</li>
+<li>系统检查当前电量、定位、地图状态</li>
+<li>若满足条件，则规划路径并开始移动</li>
+<li>行进过程中持续进行避障检测与重规划</li>
+<li>到达目标区域后启动视觉搜索</li>
+<li>搜索成功则反馈物体位置</li>
+<li>搜索失败则说明原因并给出建议</li>
+<li>任务完成后记录日志</li>
+</ol>
+<h3>8.2 流程图</h3>
+<div class="highlight highlight-source-mermaid"><pre class="notranslate"><span class="pl-k">flowchart</span> <span class="pl-c1">TD</span>
+    <span class="pl-ent">A</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>用户语音发起找物请求<span class="pl-pds"><span class="pl-sg">]</span></span></span> <span class="pl-k">--&gt;</span> <span class="pl-ent">B</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>意图解析<span class="pl-pds"><span class="pl-sg">]</span></span></span>
+    <span class="pl-ent">B</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">C</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">{</span></span>任务是否合法<span class="pl-pds"><span class="pl-sg">}</span></span></span>
+    <span class="pl-ent">C</span> <span class="pl-k">--</span> <span class="pl-s">否</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">D</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>提示用户重新表达<span class="pl-pds"><span class="pl-sg">]</span></span></span>
+    <span class="pl-ent">C</span> <span class="pl-k">--</span> <span class="pl-s">是</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">E</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>检查电量 定位 地图<span class="pl-pds"><span class="pl-sg">]</span></span></span>
+    <span class="pl-ent">E</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">F</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">{</span></span>是否满足执行条件<span class="pl-pds"><span class="pl-sg">}</span></span></span>
+    <span class="pl-ent">F</span> <span class="pl-k">--</span> <span class="pl-s">否</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">G</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>拒绝执行并反馈原因<span class="pl-pds"><span class="pl-sg">]</span></span></span>
+    <span class="pl-ent">F</span> <span class="pl-k">--</span> <span class="pl-s">是</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">H</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>路径规划<span class="pl-pds"><span class="pl-sg">]</span></span></span>
+    <span class="pl-ent">H</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">I</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>开始移动<span class="pl-pds"><span class="pl-sg">]</span></span></span>
+    <span class="pl-ent">I</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">J</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">{</span></span>检测到障碍物<span class="pl-pds"><span class="pl-sg">}</span></span></span>
+    <span class="pl-ent">J</span> <span class="pl-k">--</span> <span class="pl-s">否</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">K</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>继续前进<span class="pl-pds"><span class="pl-sg">]</span></span></span>
+    <span class="pl-ent">J</span> <span class="pl-k">--</span> <span class="pl-s">是</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">L</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>减速 停让或重规划<span class="pl-pds"><span class="pl-sg">]</span></span></span>
+    <span class="pl-ent">L</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">M</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">{</span></span>重规划成功<span class="pl-pds"><span class="pl-sg">}</span></span></span>
+    <span class="pl-ent">M</span> <span class="pl-k">--</span> <span class="pl-s">是</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">K</span>
+    <span class="pl-ent">M</span> <span class="pl-k">--</span> <span class="pl-s">否</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">N</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>请求人工协助<span class="pl-pds"><span class="pl-sg">]</span></span></span>
+    <span class="pl-ent">K</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">O</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">{</span></span>到达目标区域<span class="pl-pds"><span class="pl-sg">}</span></span></span>
+    <span class="pl-ent">O</span> <span class="pl-k">--</span> <span class="pl-s">否</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">I</span>
+    <span class="pl-ent">O</span> <span class="pl-k">--</span> <span class="pl-s">是</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">P</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>启动目标搜索<span class="pl-pds"><span class="pl-sg">]</span></span></span>
+    <span class="pl-ent">P</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">Q</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">{</span></span>识别到目标物<span class="pl-pds"><span class="pl-sg">}</span></span></span>
+    <span class="pl-ent">Q</span> <span class="pl-k">--</span> <span class="pl-s">是</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">R</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>语音和屏幕反馈位置<span class="pl-pds"><span class="pl-sg">]</span></span></span>
+    <span class="pl-ent">Q</span> <span class="pl-k">--</span> <span class="pl-s">否</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">S</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">{</span></span>搜索是否超时<span class="pl-pds"><span class="pl-sg">}</span></span></span>
+    <span class="pl-ent">S</span> <span class="pl-k">--</span> <span class="pl-s">否</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">P</span>
+    <span class="pl-ent">S</span> <span class="pl-k">--</span> <span class="pl-s">是</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">T</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>反馈未找到并建议人工确认<span class="pl-pds"><span class="pl-sg">]</span></span></span>
+    <span class="pl-ent">R</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">U</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>记录日志并结束任务<span class="pl-pds"><span class="pl-sg">]</span></span></span>
+    <span class="pl-ent">T</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">U</span>
+    <span class="pl-ent">D</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">U</span>
+    <span class="pl-ent">G</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">U</span>
+    <span class="pl-ent">N</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">U</span></pre></div>
+<hr>
+<h2>9. 功能需求明细</h2>
+<h2>9.1 语音任务下发</h2>
+<h3>功能描述</h3>
+<p>用户可通过语音触发找物任务，系统识别目标物类别及可选区域信息。</p>
+<h3>输入示例</h3>
+<ol>
+<li>帮我找药盒</li>
+<li>去客厅找遥控器</li>
+<li>帮我看看水杯在哪</li>
+</ol>
+<h3>处理要求</h3>
+<ol>
+<li>支持目标物关键词识别：药盒、遥控器、水杯、纸巾盒</li>
+<li>若识别到明确区域信息，则优先前往对应区域</li>
+<li>若物体类别不在支持范围内，则提示当前版本暂不支持</li>
+<li>若语句存在歧义，则发起一次二次确认</li>
+</ol>
+<h3>验收要求</h3>
+<ol>
+<li>目标物类别识别成功率不低于 95%</li>
+<li>歧义任务必须进入二次确认，不允许直接误执行</li>
+</ol>
+<h2>9.2 执行前状态检查</h2>
+<h3>功能描述</h3>
+<p>机器人在开始执行任务前，必须完成基础状态校验。</p>
+<h3>检查项</h3>
+<ol>
+<li>电量是否高于任务启动阈值</li>
+<li>当前定位状态是否正常</li>
+<li>地图是否可用</li>
+<li>当前是否处于故障或人工接管状态</li>
+</ol>
+<h3>处理要求</h3>
+<ol>
+<li>若电量低于阈值，则拒绝执行并提示先回充</li>
+<li>若定位异常，则提示当前无法执行任务</li>
+<li>若系统处于人工接管状态，则不接受新任务</li>
+</ol>
+<h2>9.3 导航与避障</h2>
+<h3>功能描述</h3>
+<p>机器人根据目标区域进行路径规划，并在移动过程中持续处理静态与动态障碍物。</p>
+<h3>处理要求</h3>
+<ol>
+<li>默认采用保守策略，优先安全而非最短时间</li>
+<li>检测到静态障碍物时进行局部绕行或重规划</li>
+<li>检测到动态障碍物时优先减速或停车</li>
+<li>连续重规划失败达到阈值后，进入人工协助流程</li>
+</ol>
+<h3>关键原则</h3>
+<ol>
+<li>不允许为缩短路径而贴边高速通过</li>
+<li>不允许在近距离有人体目标时强行绕行</li>
+<li>电梯口、转角、窄道等高风险区域采用更保守的速度配置</li>
+</ol>
+<h2>9.4 目标物搜索</h2>
+<h3>功能描述</h3>
+<p>机器人到达目标区域后，对视野内目标物进行搜索与确认。</p>
+<h3>处理要求</h3>
+<ol>
+<li>首先在用户指定区域的主要平面进行搜索</li>
+<li>若首次未识别到，则执行多视角二次搜索</li>
+<li>若识别置信度不足，则提示可能被遮挡或环境光照不足</li>
+<li>搜索超时后结束当前任务，进入失败反馈流程</li>
+</ol>
+<h3>结果反馈要求</h3>
+<ol>
+<li>若成功识别，需用语音告知目标物所在区域描述</li>
+<li>屏幕上显示目标物名称、位置描述和置信状态</li>
+<li>若失败，必须说明失败原因类别</li>
+</ol>
+<h2>9.5 任务结果反馈</h2>
+<h3>成功反馈</h3>
+<ol>
+<li>已找到药盒，位于客厅茶几右侧</li>
+<li>已找到遥控器，位于沙发左扶手附近</li>
+</ol>
+<h3>失败反馈</h3>
+<ol>
+<li>当前未找到药盒，可能被遮挡，请人工确认</li>
+<li>当前路径受阻，无法继续执行，请清理通道后重试</li>
+<li>电量不足，已暂停任务并准备回充</li>
+</ol>
+<hr>
+<h2>10. 异常处理与降级策略</h2>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th align="left">异常场景</th>
+<th align="left">触发条件</th>
+<th align="left">系统动作</th>
+<th align="left">用户反馈</th>
+<th align="left">日志要求</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">路径长期阻塞</td>
+<td align="left">同一路段连续 3 次重规划失败</td>
+<td align="left">停车并请求人工协助</td>
+<td align="left">当前通道受阻，请协助清理</td>
+<td align="left">记录地图位置、重规划次数</td>
+</tr>
+<tr>
+<td align="left">动态障碍物逼近</td>
+<td align="left">人或宠物进入近距离安全区</td>
+<td align="left">减速或停车</td>
+<td align="left">前方有人体目标，正在等待通行</td>
+<td align="left">记录时间点与传感器快照</td>
+</tr>
+<tr>
+<td align="left">目标物未识别</td>
+<td align="left">搜索超时仍未找到</td>
+<td align="left">结束搜索并反馈失败</td>
+<td align="left">当前未找到目标物，可能被遮挡</td>
+<td align="left">保存识别截图和置信度</td>
+</tr>
+<tr>
+<td align="left">电量不足</td>
+<td align="left">启动前或执行中低于阈值</td>
+<td align="left">拒绝任务或中断返航</td>
+<td align="left">电量不足，当前任务已暂停</td>
+<td align="left">记录电量曲线和任务阶段</td>
+</tr>
+<tr>
+<td align="left">指令歧义</td>
+<td align="left">目标物类别不明确</td>
+<td align="left">发起二次确认</td>
+<td align="left">请问您要找的是药盒还是纸巾盒</td>
+<td align="left">记录原始语音文本</td>
+</tr>
+<tr>
+<td align="left">定位异常</td>
+<td align="left">无法稳定定位</td>
+<td align="left">停止执行</td>
+<td align="left">当前定位异常，无法继续执行</td>
+<td align="left">记录定位状态码</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<h3>降级原则</h3>
+<ol>
+<li>任何涉及近距离人体风险的情况，优先停车</li>
+<li>任何涉及定位不确定的情况，不允许盲目前进</li>
+<li>任何涉及低电量风险的情况，优先保证返航安全</li>
+<li>任何超过设定重试次数的情况，必须进入人工协助而不是无限循环</li>
+</ol>
+<hr>
+<h2>11. 数据记录要求</h2>
+<p>为了支持后续算法和产品迭代，本功能需沉淀以下数据：</p>
+<ol>
+<li>每次任务的目标物类型、目标区域和执行结果</li>
+<li>任务耗时、路径长度、重规划次数</li>
+<li>避障触发次数与类型分布</li>
+<li>识别失败时的图像快照、置信度和环境标签</li>
+<li>人工接管前 30 秒的系统状态日志</li>
+<li>用户二次确认与重新表达的发生频率</li>
+</ol>
+<p>这些数据后续用于：</p>
+<ol>
+<li>识别长尾场景</li>
+<li>优化目标物识别策略</li>
+<li>优化路径保守性参数</li>
+<li>优化人机交互提示文案</li>
+</ol>
+<hr>
+<h2>12. 非功能需求</h2>
+<h3>12.1 安全性</h3>
+<ol>
+<li>必须支持近距离动态障碍物减速或停车</li>
+<li>必须支持人工急停机制</li>
+<li>必须避免在高风险区域激进穿行</li>
+</ol>
+<h3>12.2 稳定性</h3>
+<ol>
+<li>任务执行过程不应因单次误识别直接崩溃</li>
+<li>所有异常必须有明确降级路径</li>
+</ol>
+<h3>12.3 可解释性</h3>
+<ol>
+<li>用户必须能理解当前处于什么状态</li>
+<li>失败时必须知道为什么失败、下一步做什么</li>
+</ol>
+<h3>12.4 可测试性</h3>
+<ol>
+<li>每项核心能力都必须定义可量化指标</li>
+<li>异常场景必须有可复现实验用例</li>
+</ol>
+<hr>
+<h2>13. 验收指标</h2>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th align="left">指标</th>
+<th align="left">目标值</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">任务发起成功率</td>
+<td align="left">&gt;= 98%</td>
+<td align="left">有效语音请求成功进入执行流程</td>
+</tr>
+<tr>
+<td align="left">目标区域到达成功率</td>
+<td align="left">&gt;= 95%</td>
+<td align="left">在预设区域内顺利到达</td>
+</tr>
+<tr>
+<td align="left">动态避障安全率</td>
+<td align="left">&gt;= 98%</td>
+<td align="left">无碰撞完成减速、停让或绕行</td>
+</tr>
+<tr>
+<td align="left">目标物识别成功率</td>
+<td align="left">&gt;= 85%</td>
+<td align="left">限定四类目标物</td>
+</tr>
+<tr>
+<td align="left">人工接管率</td>
+<td align="left">&lt;= 10%</td>
+<td align="left">每 100 次任务的人工介入占比</td>
+</tr>
+<tr>
+<td align="left">平均任务时长</td>
+<td align="left">&lt;= 180 秒</td>
+<td align="left">从任务下发到结果反馈</td>
+</tr>
+<tr>
+<td align="left">异常可解释反馈覆盖率</td>
+<td align="left">= 100%</td>
+<td align="left">所有失败场景必须有明确反馈</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<hr>
+<h2>14. 依赖项</h2>
+<ol>
+<li>室内地图已预构建并可用</li>
+<li>语音模块具备基础关键词识别能力</li>
+<li>导航模块支持局部重规划</li>
+<li>视觉模块支持四类目标物识别</li>
+<li>客户端或屏幕模块支持状态展示</li>
+</ol>
+<hr>
+<h2>15. 风险与待确认项</h2>
+<ol>
+<li>四类目标物是否足以覆盖真实高频需求，需用户调研确认</li>
+<li>家庭弱光环境是否需要补充红外或补光能力，需硬件评估</li>
+<li>宠物场景下的避障策略是否需要独立参数配置，需测试验证</li>
+<li>屏幕反馈是否足够适合老人理解，需做可用性测试</li>
+<li>用户是否更需要“找物定位”还是“找物后呼叫家属”，需进一步确认业务优先级</li>
+</ol>
+<hr>
+<h2>16. 测试用例建议</h2>
+<h3>用例 1：正常找物</h3>
+<p>输入：帮我找药盒</p>
+<p>预期：机器人成功前往预设区域，识别药盒并播报位置。</p>
+<h3>用例 2：路径被阻塞</h3>
+<p>输入：去客厅找遥控器</p>
+<p>环境：中途走道放置障碍物且不可绕行。</p>
+<p>预期：机器人连续重规划失败后停止前进，提示人工协助。</p>
+<h3>用例 3：动态障碍物闯入</h3>
+<p>输入：帮我找纸巾盒</p>
+<p>环境：移动途中有人从侧面近距离经过。</p>
+<p>预期：机器人减速或停车，待通行后继续。</p>
+<h3>用例 4：目标物被遮挡</h3>
+<p>输入：帮我找水杯</p>
+<p>环境：水杯被遮挡在物体后方。</p>
+<p>预期：机器人进行二次搜索，超时后提示可能被遮挡。</p>
+<h3>用例 5：低电量中断</h3>
+<p>输入：帮我找遥控器</p>
+<p>环境：任务进行中电量降到安全阈值以下。</p>
+<p>预期：机器人终止任务，提示电量不足并返航。</p></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://zeng9899.github.io">HR98的博客</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if(""!=""){
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行 "+diffDay+" 天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'copy': 'M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z', 'check': 'M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z'};
+var utterancesLoad=0;
+
+let themeSettings={
+    "dark": ["dark","moon","#00f0ff","dark-blue"],
+    "light": ["light","sun","#ff5000","github-light"],
+    "auto": ["auto","sync","","preferred-color-scheme"]
+};
+function changeTheme(mode, icon, color, utheme){
+    document.documentElement.setAttribute("data-color-mode",mode);
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color=color;
+    if(utterancesLoad==1){utterancesTheme(utheme);}
+}
+function modeSwitch(){
+    let currentMode=document.documentElement.getAttribute('data-color-mode');
+    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", newMode);
+    if(themeSettings[newMode]){
+        changeTheme(...themeSettings[newMode]);
+    }
+}
+function utterancesTheme(theme){
+    const message={type:'set-theme',theme: theme};
+    const iframe=document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message,'https://utteranc.es');
+}
+if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.disabled=true;
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","zeng9899/zeng9899.github.io");
+    script.setAttribute("issue-term","title");
+    
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const createClipboardHTML = (codeContent, additionalClasses = '') => `
+        <pre class="notranslate"><code class="notranslate">${codeContent}</code></pre>
+        <div class="clipboard-container position-absolute right-0 top-0 ${additionalClasses}">
+            <clipboard-copy class="ClipboardButton btn m-2 p-0" role="button" style="display: inherit;">
+                <svg height="16" width="16" class="octicon octicon-copy m-2"><path d="${IconList["copy"]}"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-check color-fg-success m-2 d-none"><path d="${IconList["check"]}"></path></svg>
+            </clipboard-copy>
+            <div class="copy-feedback">Copied!</div>
+        </div>
+    `;
+
+    const handleCodeElements = (selector = '') => {
+        document.querySelectorAll(selector).forEach(codeElement => {
+            const codeContent = codeElement.innerHTML;
+            const newStructure = document.createElement('div');
+            newStructure.className = 'snippet-clipboard-content position-relative overflow-auto';
+            newStructure.innerHTML = createClipboardHTML(codeContent);
+
+            const parentElement = codeElement.parentElement;
+            if (selector.includes('highlight')) {
+                parentElement.insertBefore(newStructure, codeElement.nextSibling);
+                parentElement.removeChild(codeElement);
+            } else {
+                parentElement.parentElement.replaceChild(newStructure, parentElement);
+            }
+        });
+    };
+
+    handleCodeElements('pre.notranslate > code.notranslate');
+    handleCodeElements('div.highlight > pre.notranslate');
+
+    let currentFeedback = null;
+    document.querySelectorAll('clipboard-copy').forEach(copyButton => {
+        copyButton.addEventListener('click', () => {
+            const codeContent = copyButton.closest('.snippet-clipboard-content').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const copyIcon = copyButton.querySelector('.octicon-copy');
+            const checkIcon = copyButton.querySelector('.octicon-check');
+            const copyFeedback = copyButton.nextElementSibling;
+
+            if (currentFeedback && currentFeedback !== copyFeedback) {currentFeedback.style.display = 'none';}
+            currentFeedback = copyFeedback;
+
+            copyIcon.classList.add('d-none');
+            checkIcon.classList.remove('d-none');
+            copyFeedback.style.display = 'block';
+            copyButton.style.borderColor = 'var(--color-success-fg)';
+
+            setTimeout(() => {
+                copyIcon.classList.remove('d-none');
+                checkIcon.classList.add('d-none');
+                copyFeedback.style.display = 'none';
+                copyButton.style.borderColor = '';
+            }, 2000);
+        });
+    });
+});
+
+</script>
+
+
+</html>
